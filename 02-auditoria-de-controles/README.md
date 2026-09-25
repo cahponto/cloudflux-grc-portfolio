@@ -62,7 +62,9 @@ A estrutura seguiu as quatro fases da ISO 19011, usadas como referência e não 
 
 ## 🔎 Evidências
 
-As evidências são **simuladas** para o cenário (documentos, e-mails e telas de sistema) e cobrem os dois tipos de verificação: **técnica** (logs, painéis, rotinas agendadas) e **documental** (políticas, atas, propostas, contratos).
+As evidências cobrem os dois tipos de verificação:
+- 🧪 **Técnica** (logs, painéis, rotinas agendadas): produzida em um **laboratório em container Docker**, montado para simular o ambiente da CloudFlux.
+- 📄 **Documental** (políticas, atas, propostas, contratos, e-mails): simulada para o cenário.
 
 Clique em cada controle para abrir.
 

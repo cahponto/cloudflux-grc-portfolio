@@ -35,8 +35,8 @@ Cada projeto parte de um **brief** que simula uma demanda real: cenário, gatilh
 
 ## 🗂️ Projetos
 
-| # | Projeto | Tema | Referência · Ferramenta |
-|:---:|---|---|---|
+| #  | Projeto | Tema | Referência · Ferramenta |
+| --- | --- | --- | --- |
 | 01 | [📊 Matriz de Gestão de Risco](01-matriz-de-risco/) | Identificação, análise e tratamento de riscos de TI | ISO 31000 · NIST |
 | 02 | [🕵️‍♀️ Auditoria Interna de Controles](02-auditoria-de-controles/) | Verificação, com evidência, dos controles prometidos | ISO 19011 · COBIT MEA02 · lab em container |
 | 03 | [🛠️ Change Management do WAF](03-change-management-servicenow/) | Mudança formal com CAB, plano faseado e rollback | ITIL 4 · ServiceNow |

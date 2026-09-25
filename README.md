@@ -1,10 +1,6 @@
-# 🧭 Portfólio GRC · Carolina Menezes
+# 🧭 CloudFlux · Projetos de GRC
 
 > Projetos simulados de **Governança de TI, Risco e Compliance**, construídos em torno de uma mesma empresa fictícia, a CloudFlux, e conectados entre si como uma história contínua.
-
-Venho de marketing e operações de agência, em transição para **Governança de TI e GRC**. Nas agências, eu já organizava processos, controlava acessos e trabalhava de forma preventiva, sem saber o nome técnico disso. Este repositório é a formalização desse conhecimento: **eu já fazia, agora eu sei o nome.**
-
-🎓 Graduação em andamento em Gestão da Tecnologia da Informação (Anhembi Morumbi).
 
 ---
 
@@ -16,12 +12,22 @@ Até que o maior cliente exigiu gestão de riscos formalizada para renovar o con
 
 ---
 
+## 🎯 Objetivo da série
+
+Aplicar frameworks e ferramentas de mercado de GRC num cenário contínuo, em que cada decisão tem consequência no projeto seguinte. Em vez de exercícios isolados, a série acompanha a CloudFlux pelo ciclo completo de amadurecimento em governança:
+
+**identificar riscos → verificar controles → mudar com processo → responder a incidentes → formalizar identidade → proteger dados pessoais**
+
+Cada projeto simula uma demanda real, com um gatilho de negócio, prazo, escopo definido e entregáveis que seriam apresentados à liderança, ao Jurídico ou a um cliente.
+
+---
+
 ## 🧪 Metodologia
 
 Cada projeto parte de um **brief** que simula uma demanda real: cenário, gatilho, escopo (o que entra e o que fica de fora), prazo e calibração para o nível júnior.
 
 - 🧠 **A análise é minha.** Pesquisa, raciocínio, classificações e decisões são feitos por mim, sem uma IA gerando a solução.
-- 🤖 **A IA atua como gestora.** Ela propõe o cenário, orienta a direção da pesquisa sem entregar a resposta e avalia a entrega no final, como um board faria.
+- 🤖 **A IA atua como gestora.** Ela propõe o cenário, orienta a direção da pesquisa sem entregar a resposta e avalia a entrega no final.
 - 🔒 **Gabarito oculto.** Nos projetos de avaliação de conformidade, existe um gabarito que eu só vejo depois de entregar, para garantir que estou analisando de verdade e não confirmando algo que já sei.
 - 🧰 **Ferramenta real sempre que possível.** ServiceNow, Jira Service Management, Keycloak e Power BI foram usados na prática, em ambientes de teste.
 
@@ -58,15 +64,6 @@ Os projetos não são exercícios soltos. Cada um nasce de um achado do anterior
 ### 💡 O conceito que atravessa a série
 
 **Controle declarado não é controle validado.** Uma política no papel, uma área dizendo que está pronto ou um campo marcado como concluído não provam que o controle funciona. Boa parte destes projetos é sobre a distância entre essas duas coisas, e sobre como encontrá-la antes que um incidente encontre.
-
----
-
-## 🐍 Outros repositórios
-
-Projetos em Python, numa trilha paralela de automação aplicada à segurança:
-
-- [quiz-seguranca-python](https://github.com/cahponto/quiz-seguranca-python): quiz de conscientização em segurança da informação.
-- [gerador-senhas-python](https://github.com/cahponto/gerador-senhas-python): gerador de senhas seguras com a biblioteca `secrets`.
 
 ---
 

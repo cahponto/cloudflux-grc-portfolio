@@ -1,200 +1,102 @@
-# 🕵️‍♀️ 02 · Auditoria Interna de Verificação de Controles
+# 🛠️ 03 · Change Management do WAF via ServiceNow
 
-> Seis meses depois da Matriz de Risco: os controles prometidos saíram do papel?
+> A auditoria encontrou o WAF desligado em produção. Ligar ele de volta não podia ser mais uma mudança feita sem processo.
 
 | | |
 |---|---|
-| 🗂️ **Tipo** | Projeto simulado |
-| 📚 **Referências** | ISO 19011 (processo de auditoria) · COBIT 2019, MEA02 (monitoramento de controle interno) |
-| 📦 **Entregáveis** | Relatório de Auditoria · Registro de Não Conformidade · Parecer final |
-| ⏱️ **Prazo simulado** | 1 semana |
+| 🗂️ **Tipo** | Projeto simulado, com registro real na ferramenta |
+| 🧰 **Ferramenta** | ServiceNow (instância de desenvolvedor, PDI), aprendida do zero |
+| 📚 **Referência** | ITIL 4 · Change Enablement |
+| 📦 **Entregável** | Change Request **CHG0030001**, do registro ao fechamento |
 
 ---
 
 ## 🏢 Cenário
 
-O cliente estratégico da **CloudFlux** renovou o contrato após o [Projeto 01](../01-matriz-de-risco/), mas com uma condição: uma reavaliação formal em seis meses, para confirmar que os controles do plano de tratamento funcionam na prática.
+Na [Auditoria (Projeto 02)](../02-auditoria-de-controles/), a **RNC 02** mostrou que o WAF da CloudFlux funcionava apenas em staging: em produção, nenhuma das 42 regras estava aplicada. A ação imediata recomendada era ativar o pacote básico **OWASP Top 10** em produção.
 
-🚨 **O gatilho:** o prazo venceu. O board pediu uma auditoria interna para verificar, **com evidência**, se cada controle foi implementado e continua operando, e não apenas marcado como concluído.
-
-📌 **Papel:** analista júnior de GRC conduzindo verificação de controle, e não auditora sênior certificada.
-
-📌 **Critério de status:**
-- 🟢 **Conforme:** implementado e funcionando.
-- 🟡 **Conforme com ressalva:** implementado, mas com falha.
-- 🔴 **Não conforme:** não implementado.
+Como é uma mudança com potencial de derrubar tráfego legítimo de clientes, ela passou pelo fluxo formal de change management antes de ir para o ar.
 
 ---
 
-## 🗓️ Como a auditoria foi conduzida
+## 📋 Classificação da mudança
 
-A estrutura seguiu as quatro fases da ISO 19011, usadas como referência e não aplicadas cláusula a cláusula.
+| Campo | Valor |
+|---|---|
+| Tipo | **Normal**, com CAB obrigatório |
+| Categoria | Network |
+| Item de configuração | CAROL3-GATEWAY |
+| Risco | High |
+| Impacto | 1 · High |
+| Prioridade | 2 · High |
+| Grupo responsável | Network |
 
-| Fase | Dias | Foco |
-|---|:---:|---|
-| 1 · Planejamento | 1–2 | Comunicado formal às áreas (TI, RH, Jurídico e Board), reuniões de alinhamento e solicitação de acessos, logs e documentos |
-| 2 · Coleta de evidências | 3–4 | Recebimento e organização do material; análise de logs, atas e relatórios |
-| 3 · Avaliação | 5 | Classificação de cada controle contra o critério e mapeamento de causa raiz |
-| 4 · Reporte | 6–7 | Apresentação ao Board e devolutiva para cada área, com as ações corretivas |
+**Descrição:** aplicação de segurança na camada 7 para mitigar vulnerabilidades OWASP Top 10 e filtrar tráfego malicioso na aplicação da CloudFlux.
 
----
+**Justificativa:** conformidade com os padrões de segurança e proteção dos serviços em nuvem contra ataques externos.
 
-## 📋 Resultado por controle
-
-| Controle | O que deveria existir | Status | Achado |
-|---|---|:---:|---|
-| Gestão de acesso | Política de RBAC com privilégio mínimo para os 180 colaboradores | 🟡 | RBAC em rascunho (v0.3), cobrindo só Engenharia e Produto, sem aprovação da diretoria e sem revisão periódica de acessos |
-| Segurança na nuvem | WAF homologado e monitoramento contínuo da camada de aplicação | 🔴 | WAF ativo apenas em staging; em produção, 0 de 42 regras aplicadas |
-| Segurança do servidor | Política de manutenção contínua com atualização automática | 🟢 | Patches aplicados por rotina automatizada (cron), com relatório e validação via SSH |
-| Segurança de rede | Arquitetura padrão de rede e VPN obrigatória no modelo híbrido | 🟢 | VPN homologada e monitorada, com logs do concentrador e controle de usuários ativos |
-| Segurança de dados | Classificação de dados e teste automatizado de restauração de backup | 🟡 | Backup em execução, mas o último teste de restauração foi manual, em 14/04/2026, fora da periodicidade trimestral |
-| Cultura de segurança | Programa contínuo de treinamento, com phishing simulado de 2 a 3 vezes por ano | 🟡 | Um único ciclo (mar/2026), com 60% de adesão e 29% de cliques; segunda rodada não executada |
-| Recuperação de desastres | DRP homologado via consultoria, com teste anual | 🔴 | Não existe DRP; a proposta de consultoria (R$ 68 mil) foi reprovada pela CFO no Q1/2026 |
-| Riscos de terceiros | Política de terceiros com questionário de homologação e cláusulas de privacidade | 🔴 | Homologação nunca entrou na rotina de compras; contratos vigentes sem cláusulas de segurança da informação e LGPD |
-
-### 📊 Placar
-
-| 🟢 Conforme | 🟡 Com ressalva | 🔴 Não conforme |
-|:---:|:---:|:---:|
-| **2** (25%) | **3** (37,5%) | **3** (37,5%) |
+⚠️ **Risco da própria mudança:** bloquear tráfego legítimo de clientes (falso positivo) ou deixar passar ataque (falso negativo), com impacto direto na disponibilidade do serviço web.
 
 ---
 
-## 🔎 Evidências
+## 🧭 Plano da mudança
 
-As evidências cobrem os dois tipos de verificação:
-- 🧪 **Técnica** (logs, painéis, rotinas agendadas): produzida em um **laboratório em container Docker**, montado para simular o ambiente da CloudFlux.
-- 📄 **Documental** (políticas, atas, propostas, contratos, e-mails): simulada para o cenário.
+### 🪜 Implementação em fases
 
-Clique em cada controle para abrir.
+Staging → **Log-only** (só registra, não bloqueia) → análise de falsos positivos por 24h → **Active blocking**
 
-<details>
-<summary>🔐 Gestão de acesso</summary>
+A fase de log-only é o que protege o cliente: as regras rodam observando o tráfego real antes de terem poder de bloquear qualquer coisa.
 
-![Evidência de gestão de acesso](media/image16.png)
+### 🧪 Plano de teste
 
-![Evidência de gestão de acesso](media/image11.png)
+| Teste | Resultado esperado |
+|---|---|
+| Requisições HTTP/HTTPS legítimas | `200 OK`, o tráfego normal passa |
+| SQL Injection e XSS simulados, em ambiente controlado | `403 Forbidden`, o ataque é bloqueado |
 
-![Política de controle de acesso](media/image24.png)
+Testar os dois lados garante que o WAF bloqueia o que deve **e** não atrapalha o que não deve.
 
-</details>
+### ↩️ Plano de rollback
 
-<details>
-<summary>☁️ Segurança na nuvem</summary>
-
-![Evidência de segurança na nuvem](media/image25.png)
-
-![Evidência de segurança na nuvem](media/image3.png)
-
-![Painel do WAF](media/image1.png)
-
-</details>
-
-<details>
-<summary>🖥️ Segurança do servidor</summary>
-
-![Evidência de segurança do servidor](media/image27.png)
-
-**Execução manual:**
-
-![Execução manual de atualização](media/image23.png)
-
-**Execução agendada:**
-
-![Rotina agendada de atualização](media/image12.png)
-
-</details>
-
-<details>
-<summary>🌐 Segurança de rede</summary>
-
-![Evidência de segurança de rede](media/image10.png)
-
-![Logs do concentrador VPN](media/image20.png)
-
-</details>
-
-<details>
-<summary>💾 Segurança de dados</summary>
-
-![Evidência de segurança de dados](media/image14.png)
-
-![Registro de teste de restauração](media/image5.png)
-
-</details>
-
-<details>
-<summary>🎓 Cultura de segurança</summary>
-
-![Evidência de cultura de segurança](media/image22.png)
-
-![Ata e lista de presença do treinamento](media/image15.png)
-
-</details>
-
-<details>
-<summary>🚑 Recuperação de desastres</summary>
-
-![Evidência de recuperação de desastres](media/image17.png)
-
-![Evidência de recuperação de desastres](media/image19.png)
-
-![Proposta comercial e ata do comitê](media/image26.png)
-
-</details>
-
-<details>
-<summary>🤝 Riscos de terceiros</summary>
-
-![Evidência de riscos de terceiros](media/image9.png)
-
-![Modelo de contrato e fluxo de compras](media/image18.png)
-
-</details>
+1. Reverter a política do WAF para Bypass/Disabled pelo console.
+2. Limpar o cache de sessões bloqueadas.
+3. Validar que o tráfego da aplicação voltou ao normal.
 
 ---
 
-## 🧾 Registro de Não Conformidade
+## ✅ Aprovação e fechamento
 
-Os seis controles que não passaram viraram RNCs, cada um com causa raiz e dois níveis de ação.
+- 🗓️ **CAB em 07/09/2026:** aprovado **com a condição** de ter o time de redes de plantão durante a janela.
+- 🕘 **Janela planejada:** 12/09, 21h → 13/09, 00h (fora do horário comercial).
+- 👥 **Aprovações:** 7 aprovadas (6 do CAB e 1 do grupo Network).
+- 🧩 **Change Tasks:** implementação (CTASK0010002) e teste pós-implementação (CTASK0010001), ambas fechadas.
+- 🏁 **Close code:** Successful. Regras aplicadas e testes validados.
 
-| RNC | Controle | Causa raiz | ⚡ Ação imediata (contenção) | 🏗️ Ação estrutural (definitiva) |
-|---|---|---|---|---|
-| 01 | Gestão de acesso 🟡 | Falta de governança na publicação de políticas; RH e Financeiro fora do mapeamento de perfis | Reunião entre TI, RH e Financeiro para validar os acessos dessas áreas | Política de RBAC v1.0 aprovada pela diretoria, com revisão trimestral automatizada de privilégios |
-| 02 | Segurança na nuvem 🔴 | Infraestrutura com apenas 3 pessoas, que priorizou chamados operacionais | Suporte temporário para ativar o pacote básico OWASP Top 10 em produção | Deploy completo das regras, alertas em tempo real e revisão do dimensionamento da equipe |
-| 03 | Segurança de dados 🟡 | Dependência de execução manual e ausência de calendário de testes | Teste emergencial de restauração na semana, registrando tempo de recuperação (RTO/RPO) | Scripts de restauração automatizada e relatório trimestral de integridade |
-| 04 | Cultura de segurança 🟡 | Falta de acompanhamento do plano e de cobrança da liderança | Relançar o treinamento para os 40% pendentes e reforço para quem clicou na simulação | Calendário semestral na plataforma de RH/LMS, com meta de 90% de adesão |
-| 05 | Recuperação de desastres 🔴 | Restrição orçamentária e desalinhamento entre gestão de risco e aprovação financeira | Playbook interno simplificado de continuidade, com os procedimentos mínimos de contingência | Reenviar a verba do DRP com prioridade na revisão orçamentária do Q3/2026, vinculada às exigências dos clientes B2B |
-| 06 | Riscos de terceiros 🔴 | Compras descentralizadas, focadas só em aspectos financeiros e comerciais | Questionário simplificado de postura de segurança para os 10 fornecedores mais críticos | Política de terceiros, anexo padrão de proteção de dados (DPA) nas novas contratações e aditivo nos contratos vigentes |
-
-### 🧩 Causas transversais
-
-A análise cruzada mostrou que as não conformidades nascem de dois fatores:
-- 👥 **Capacidade operacional:** a equipe de Infraestrutura tem 3 pessoas e está sobrecarregada, o que represou o WAF em produção e a automação dos testes de backup.
-- 💰 **Governança financeira:** o corte orçamentário travou a contratação do DRP.
+📄 **Registro completo exportado do ServiceNow:** [CHG0030001.pdf](CHG0030001.pdf)
 
 ---
 
-## ⚖️ Parecer final
+## 🔧 O que a ferramenta ensinou
 
-A CloudFlux **não tem maturidade suficiente para declarar conformidade total** de segurança e continuidade ao cliente. O WAF inativo em produção e a ausência de DRP expõem a operação a riscos significativos de indisponibilidade e de incidente de segurança.
+Primeiro contato com ServiceNow, sem curso formal. Os ajustes feitos no caminho foram parte do aprendizado:
 
-**Recomendação:**
-- 🪟 **Transparência controlada:** não afirmar que todos os controles estão 100% operacionais. Apresentar este relatório junto com o Plano de Ação Corretiva, demonstrando governança e compromisso com melhoria contínua.
-- 🚀 **Recursos emergenciais:** apoio temporário à Infraestrutura para ativar o WAF em produção em até 30 dias, e reavaliação da verba do DRP (R$ 68 mil) no Q3/2026 como investimento em retenção de contas B2B.
-- 🔁 **Re-auditoria em 45 dias**, para verificar a execução das ações de contenção.
+- 🎯 **Coerência de classificação.** O impacto estava como Low enquanto risco e prioridade eram High. Foi corrigido para High, alinhando os três campos, porque esse tipo de inconsistência é o primeiro a saltar aos olhos de quem audita o registro depois.
+- 🧩 **Change Task não fecha sozinha.** Quando o change avançou de fase, o sistema cancelou automaticamente as tasks que não tinham sido fechadas. Elas foram reabertas e fechadas uma a uma, com close code e notas próprias.
+- 🗓️ **Ruído do ambiente de demonstração.** O conflito de agenda apontado vinha de uma janela de manutenção pré-cadastrada na PDI, sem relação com o cenário. Foi documentado em work notes, em vez de forçado a resolver.
+- 👥 **Regra de quórum.** Quatro aprovadores do grupo Network ficaram como "No Longer Required" depois que as aprovações do CAB bastaram para avançar. Foi identificado como comportamento legítimo do workflow, e não como aprovação pulada, e também documentado.
+
+> 📝 **Nota de transparência:** no registro exportado, a data de execução real ficou como 14/04 → 15/04, e não dentro da janela planejada. É uma inconsistência de preenchimento, identificada na revisão deste portfólio, quando a instância de teste já havia expirado. No cenário, a execução acontece na janela de 12/09 → 13/09 aprovada pelo CAB.
 
 ---
 
 ## ✅ O que este projeto demonstra
 
-- Diferenciar **controle documentado** de **controle operando**, com evidência técnica e documental.
-- Aplicar o ciclo da ISO 19011 (planejar, coletar, avaliar e reportar) e a lógica de monitoramento do COBIT MEA02.
-- **Análise de causa raiz** por não conformidade, incluída por iniciativa própria, além do escopo definido para o nível júnior.
-- Parecer honesto para o board, conectando o investimento pendente à retenção de receita.
+- Aplicar **ITIL 4 Change Enablement**: classificar, avaliar risco, planejar, aprovar via CAB, testar e fechar.
+- Desenhar uma implementação **faseada** que reduz o risco da própria mudança.
+- Planejar teste positivo e negativo (`200` e `403`) e um rollback concreto.
+- Diferenciar **erro de preenchimento** de **comportamento legítimo da ferramenta**, documentando cada um.
 
 ## 🔜 Desdobramentos na série CloudFlux
 
-- 🛠️ A ativação do WAF em produção, pedida na RNC 02, passa por change management formal em **[03 · Change Management via ServiceNow](../03-change-management-servicenow/)**.
-- 🚨 A VPN, declarada conforme nesta auditoria, mostra uma lacuna de enforcement durante o incidente de **[04 · Gestão de Incidente via Jira](../04-gestao-de-incidente-jira/)**. É o limite entre controle declarado e controle validado tecnicamente.
-- 🔐 A RNC 01 (RBAC em rascunho) é finalmente fechada em **[05 · Gestão de Acesso via Keycloak](../05-gestao-de-acesso-keycloak/)**.
+- 🔙 Esta mudança responde à **RNC 02** da [02 · Auditoria de Controles](../02-auditoria-de-controles/).
+- 🚨 Próximo capítulo: **[04 · Gestão de Incidente via Jira](../04-gestao-de-incidente-jira/)**, uma tentativa de acesso indevido que coloca à prova outro controle declarado como pronto na auditoria, a VPN.

@@ -195,6 +195,6 @@ A CloudFlux **não tem maturidade suficiente para declarar conformidade total** 
 
 ## 🔜 Desdobramentos na série CloudFlux
 
-- 🛠️ O WAF, implementado sem processo formal, é documentado retroativamente em **[03 · Change Management via ServiceNow](../03-change-management-servicenow/)**.
+- 🛠️ A ativação do WAF em produção, pedida na RNC 02, passa por change management formal em **[03 · Change Management via ServiceNow](../03-change-management-servicenow/)**.
 - 🚨 A VPN, declarada conforme nesta auditoria, mostra uma lacuna de enforcement durante o incidente de **[04 · Gestão de Incidente via Jira](../04-gestao-de-incidente-jira/)**. É o limite entre controle declarado e controle validado tecnicamente.
 - 🔐 A RNC 01 (RBAC em rascunho) é finalmente fechada em **[05 · Gestão de Acesso via Keycloak](../05-gestao-de-acesso-keycloak/)**.
